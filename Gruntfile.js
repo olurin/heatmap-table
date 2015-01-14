@@ -41,6 +41,13 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
+      coffee: {
+            files: ['<%= config.app %>/scripts/{,*/}*.coffee'],
+            tasks: ['coffee'],
+            options: {
+                livereload: true
+            }
+        },
       jstest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['test:watch']
@@ -144,6 +151,13 @@ module.exports = function (grunt) {
         }
       }
     },
+
+    // CoffeeScript configuration options
+    coffee: {
+          compile: {
+              files: {'<%= config.app %>/scripts/main.js': '<%= config.app %>/scripts/{,*/}*.coffee'}
+          }
+     },
 
     // Add vendor prefixed styles
     autoprefixer: {
@@ -382,8 +396,12 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
+    grunt.loadNpmTasks('grunt-contrib-coffee');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+
   grunt.registerTask('default', [
     'newer:jshint',
+    'coffee',
     'test',
     'build'
   ]);
