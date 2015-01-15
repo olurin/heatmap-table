@@ -30,109 +30,107 @@ SOFTWARE.
 
 'use strict';
 
-###*
- Component to Hexidecimal
- The following function will do to the RGB to hex conversion and add any required zero padding
+class HeatMapTable
 
- - componentToHex( current color )
- - rgbtoHex (red, blue, green)
+  ###*
+   Component to Hexidecimal
+   The following function will do to the RGB to hex conversion and add any required zero padding
 
- console.log( rgbToHex(0, 51, 255) ); // #0033ff
-###
-componentToHex = (color) ->
+   - componentToHex( current color )
+   - rgbtoHex (red, blue, green)
+
+   console.log( rgbToHex(0, 51, 255) ); // #0033ff
+  ###
+
+  _componentToHex: (color) ->
     hex = color.toString(16)
     (if hex.length is 1 then '0' + hex else hex)
 
-rgbToHex = (r, g, b) ->
-    '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b))
 
-###*
- Get Maximum and Minimum value out of an array
+  _rgbtoHex: (r, g, b) ->
+    '#' + _componentToHex(r) + _componentToHex(g) + _componentToHex(b)
 
- http://ejohn.org/blog/fast-javascript-maxmin/
-###
+  #Get Maximum and Minimum value out of an array
+  #http://ejohn.org/blog/fast-javascript-maxmin/
 
-Array.max = (array) ->
+  _max: (array) ->
     Math.max.apply Math, array
 
-Array.min = (array) ->
+  _min: (array) ->
     Math.min.apply Math, array
 
-Array.average = (array) ->
-  summation = 0
-  i = 0
+  _average: (array) ->
+    summation = 0
+    i = 0
 
-  while i < array.length
-    summation += parseFloat(array[i]) #base 10
-    i++
-  average = summation / array.length
-  Math.round average
-  # return 4
+    while i < array.length
+      summation += parseFloat(array[i]) # base10
+      i++
+    average = summation / array.length
+    Math.round average
 
-Array.srt = (array) ->
-  array.sort()
+  _sort: (array) ->
+    array.sort()
 
-Array.mode = mode = (array) ->
-  counter = {}
-  mode = []
-  max = 0
-  array = array.sort()
-  array[Math.round(array.length / 2)]
+  _mode: (array) ->
+    counter = {}
+    mode = []
+    max = 0
+    array = _sort()
+    array[Math.round(array.lenth / 2)]
 
-###*
-Color Scheme Function
-###
+  #Color Scheme Function
 
-colorScheme = (scheme) ->
-  firstColor = undefined
-  secondColor = undefined
-  thirdColor = undefined
-  firstColor = []
-  secondColor = []
-  thirdColor = []
-  switch scheme
-    when 'GYR'
-      firstColor = [ 243, 81, 88 ]
-      secondColor = [ 254, 233, 144 ]
-      thirdColor = [ 84, 180, 104 ]
-    when 'RYG'
-      firstColor = [ 84, 180, 104 ]
-      secondColor = [ 254, 233, 144 ]
-      thirdColor = [ 243, 81, 88 ]
-    else
-      firstColor = [ 243, 81, 88 ]
-      secondColor = [ 254, 233, 144 ]
-      thirdColor = [ 84, 180, 104 ]
-  firstColor: firstColor
-  secondColor: secondColor
-  thirdColor: thirdColor
+  _colorScheme: (scheme) ->
+    firstColor = undefined
+    secondColor = undefined
+    thirdColor = undefined
+    firstColor = []
+    secondColor = []
+    thirdColor = []
+    switch scheme
+        when 'GYR'
+          firstColor = [ 243, 81, 88 ]
+          secondColor = [ 254, 233, 144 ]
+          thirdColor = [ 84, 180, 104 ]
+        when 'RYG'
+          firstColor = [ 84, 180, 104 ]
+          secondColor = [ 254, 233, 144 ]
+          thirdColor = [ 243, 81, 88 ]
+        else
+          firstColor = [ 243, 81, 88 ]
+          secondColor = [ 254, 233, 144 ]
+          thirdColor = [ 84, 180, 104 ]
+    firstColor: firstColor
+    secondColor: secondColor
+    thirdColor: thirdColor
 
-window.heatmap = heatmap = (classname, scheme) ->
-  piaArray = $('table tbody td.' + classname).map(->
-    parseFloat $(this).text()
-  ).get()
+  heatmap: (classname, scheme) ->
+    piaArray = $('table tbody td.' + classname).map(->
+      parseFloat $(this).text()
+    ).get()
 
-  max = Array.max(piaArray)
-  ave = Array.average(piaArray)
-  min = Array.min(piaArray)
-  mod = Array.mode(piaArray)
+    max = Array.max(piaArray)
+    ave = Array.average(piaArray)
+    min = Array.min(piaArray)
+    mod = Array.mode(piaArray)
 
-  getColorScheme = colorScheme(scheme)
+    getColorScheme = colorScheme(scheme)
 
-  xr = getColorScheme.firstColor[0]
-  xg = getColorScheme.firstColor[1]
-  xb = getColorScheme.firstColor[2]
-  ar = getColorScheme.secondColor[0]
-  ag = getColorScheme.secondColor[1]
-  ab = getColorScheme.secondColor[2]
-  yr = getColorScheme.thirdColor[0]
-  yg = getColorScheme.thirdColor[1]
-  yb = getColorScheme.thirdColor[2]
+    xr = getColorScheme.firstColor[0]
+    xg = getColorScheme.firstColor[1]
+    xb = getColorScheme.firstColor[2]
+    ar = getColorScheme.secondColor[0]
+    ag = getColorScheme.secondColor[1]
+    ab = getColorScheme.secondColor[2]
+    yr = getColorScheme.thirdColor[0]
+    yg = getColorScheme.thirdColor[1]
+    yb = getColorScheme.thirdColor[2]
 
-  n = 100
+    n = 100
 
-  # Add background color to cell
-  $('table tbody td.' + classname).each ->
+    # Add background color to cell
+    $('table tbody td.' + classname).each ->
       value = parseFloat($(this).text())
       if value < mod
         pos = parseInt((Math.round(((value - min) / (mod - min)) * 100)).toFixed(0))
@@ -155,4 +153,4 @@ window.heatmap = heatmap = (classname, scheme) ->
         clr = rgbToHex(red, green, blue)
         $(this).css backgroundColor: clr
         return
-  return
+    return
