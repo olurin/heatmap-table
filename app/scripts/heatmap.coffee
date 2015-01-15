@@ -44,7 +44,7 @@ componentToHex = (color) ->
     (if hex.length is 1 then '0' + hex else hex)
 
 rgbToHex = (r, g, b) ->
-    '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
+    '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b))
 
 ###*
  Get Maximum and Minimum value out of an array
@@ -56,7 +56,7 @@ Array.max = (array) ->
     Math.max.apply Math, array
 
 Array.min = (array) ->
-    Math.max.apply Math, array
+    Math.min.apply Math, array
 
 Array.average = (array) ->
   summation = 0
@@ -79,6 +79,9 @@ Array.mode = mode = (array) ->
   array = array.sort()
   array[Math.round(array.length / 2)]
 
+###*
+Color Scheme Function
+###
 
 colorScheme = (scheme) ->
   firstColor = undefined
@@ -104,7 +107,7 @@ colorScheme = (scheme) ->
   secondColor: secondColor
   thirdColor: thirdColor
 
-heatMap = (classname, scheme) ->
+Heatmap = (classname, scheme) ->
   piaArray = $('table tbody td.' + classname).map(->
     parseFloat $(this).text()
   ).get()
@@ -128,30 +131,28 @@ heatMap = (classname, scheme) ->
 
   n = 100
 
+  # Add background color to cell
   $('table tbody td.' + classname).each ->
-    value = parseFloat($(this).text())
-
-    if value < mod
-      pos = parseInt((Math.round(((value - min) / (mod - min)) * 100)).toFixed(0))
-      red = parseInt((xr + ((pos * (ar - xr)) / (n - 1))).toFixed(0))
-      green = parseInt((xg + ((pos * (ag - xg)) / (n - 1))).toFixed(0))
-      blue = parseInt((xb + ((pos * (ab - xb)) / (n - 1))).toFixed(0))
-      clr = rgbToHex(red, green, blue)
-      $(this).css backgroundColor: clr
-    if value is mod
-      red = ar
-      green = ag
-      blue = ab
-      clr = rgbToHex(red, green, blue)
-      $(this).css backgroundColor: clr
-    if value > mod
-      pos = parseInt((Math.round(((value - mod) / (max - mod)) * 100)).toFixed(0))
-      red = parseInt((ar + ((pos * (yr - ar)) / (n - 1))).toFixed(0))
-      green = parseInt((ag + ((pos * (yg - ag)) / (n - 1))).toFixed(0))
-      blue = parseInt((ab + ((pos * (yb - ab)) / (n - 1))).toFixed(0))
-      clr = rgbToHex(red, green, blue)
-      $(this).css backgroundColor: clr
-      return
+      value = parseFloat($(this).text())
+      if value < mod
+        pos = parseInt((Math.round(((value - min) / (mod - min)) * 100)).toFixed(0))
+        red = parseInt((xr + ((pos * (ar - xr)) / (n - 1))).toFixed(0))
+        green = parseInt((xg + ((pos * (ag - xg)) / (n - 1))).toFixed(0))
+        blue = parseInt((xb + ((pos * (ab - xb)) / (n - 1))).toFixed(0))
+        clr = rgbToHex(red, green, blue)
+        $(this).css backgroundColor: clr
+      if value is mod
+        red = ar
+        green = ag
+        blue = ab
+        clr = rgbToHex(red, green, blue)
+        $(this).css backgroundColor: clr
+      if value > mod
+        pos = parseInt((Math.round(((value - mod) / (max - mod)) * 100)).toFixed(0))
+        red = parseInt((ar + ((pos * (yr - ar)) / (n - 1))).toFixed(0))
+        green = parseInt((ag + ((pos * (yg - ag)) / (n - 1))).toFixed(0))
+        blue = parseInt((ab + ((pos * (yb - ab)) / (n - 1))).toFixed(0))
+        clr = rgbToHex(red, green, blue)
+        $(this).css backgroundColor: clr
+        return
   return
-
-heatMap('score', 'RYG')

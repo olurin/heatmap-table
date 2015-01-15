@@ -40,7 +40,7 @@ SOFTWARE.
   
    console.log( rgbToHex(0, 51, 255) ); // #0033ff
    */
-  var colorScheme, componentToHex, heatMap, mode, rgbToHex;
+  var Heatmap, colorScheme, componentToHex, mode, rgbToHex;
 
   componentToHex = function(color) {
     var hex;
@@ -53,7 +53,7 @@ SOFTWARE.
   };
 
   rgbToHex = function(r, g, b) {
-    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    return '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
   };
 
 
@@ -68,7 +68,7 @@ SOFTWARE.
   };
 
   Array.min = function(array) {
-    return Math.max.apply(Math, array);
+    return Math.min.apply(Math, array);
   };
 
   Array.average = function(array) {
@@ -95,6 +95,11 @@ SOFTWARE.
     array = array.sort();
     return array[Math.round(array.length / 2)];
   };
+
+
+  /**
+  Color Scheme Function
+   */
 
   colorScheme = function(scheme) {
     var firstColor, secondColor, thirdColor;
@@ -127,7 +132,7 @@ SOFTWARE.
     };
   };
 
-  heatMap = function(classname, scheme) {
+  Heatmap = function(classname, scheme) {
     var ab, ag, ar, ave, getColorScheme, max, min, mod, n, piaArray, xb, xg, xr, yb, yg, yr;
     piaArray = $('table tbody td.' + classname).map(function() {
       return parseFloat($(this).text());
@@ -181,7 +186,5 @@ SOFTWARE.
       }
     });
   };
-
-  heatMap('score', 'RYG');
 
 }).call(this);
