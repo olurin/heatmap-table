@@ -28,7 +28,7 @@ SOFTWARE.
 
 ###
 
-'use strict'
+'use strict';
 
 ###*
  Component to Hexidecimal
@@ -107,7 +107,7 @@ colorScheme = (scheme) ->
   secondColor: secondColor
   thirdColor: thirdColor
 
-Heatmap = (classname, scheme) ->
+window.heatmap = heatmap = (classname, scheme) ->
   piaArray = $('table tbody td.' + classname).map(->
     parseFloat $(this).text()
   ).get()
