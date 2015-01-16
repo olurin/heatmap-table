@@ -24,29 +24,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-  Ref [1]
-  http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+Ref [1]
+http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
  */
 
 (function() {
-  'use strict';
-  var HeatMapTable;
-
-  HeatMapTable = (function() {
-    function HeatMapTable() {}
-
-
-    /**
-     Component to Hexidecimal
-     The following function will do to the RGB to hex conversion and add any required zero padding
-    
-     - componentToHex( current color )
-     - rgbtoHex (red, blue, green)
-    
-     console.log( rgbToHex(0, 51, 255) ); // #0033ff
-     */
-
-    HeatMapTable.prototype._componentToHex = function(color) {
+  jQuery(function($) {
+    'use strict';
+    var _average, _colorScheme, _componentToHex, _max, _min, _mode, _rgbtoHex, _sort;
+    _componentToHex = function(color) {
       var hex;
       hex = color.toString(16);
       if (hex.length === 1) {
@@ -55,20 +41,16 @@ SOFTWARE.
         return hex;
       }
     };
-
-    HeatMapTable.prototype._rgbtoHex = function(r, g, b) {
+    _rgbtoHex = function(r, g, b) {
       return '#' + _componentToHex(r) + _componentToHex(g) + _componentToHex(b);
     };
-
-    HeatMapTable.prototype._max = function(array) {
+    _max = function(array) {
       return Math.max.apply(Math, array);
     };
-
-    HeatMapTable.prototype._min = function(array) {
+    _min = function(array) {
       return Math.min.apply(Math, array);
     };
-
-    HeatMapTable.prototype._average = function(array) {
+    _average = function(array) {
       var average, i, summation;
       summation = 0;
       i = 0;
@@ -79,21 +61,18 @@ SOFTWARE.
       average = summation / array.length;
       return Math.round(average);
     };
-
-    HeatMapTable.prototype._sort = function(array) {
+    _sort = function(array) {
       return array.sort();
     };
-
-    HeatMapTable.prototype._mode = function(array) {
+    _mode = function(array) {
       var counter, max, mode;
       counter = {};
       mode = [];
       max = 0;
-      array = _sort();
+      array = array.sort();
       return array[Math.round(array.lenth / 2)];
     };
-
-    HeatMapTable.prototype._colorScheme = function(scheme) {
+    _colorScheme = function(scheme) {
       var firstColor, secondColor, thirdColor;
       firstColor = void 0;
       secondColor = void 0;
@@ -123,17 +102,16 @@ SOFTWARE.
         thirdColor: thirdColor
       };
     };
-
-    HeatMapTable.prototype.heatmap = function(classname, scheme) {
+    this.heatmap = function(classname, scheme) {
       var ab, ag, ar, ave, getColorScheme, max, min, mod, n, piaArray, xb, xg, xr, yb, yg, yr;
       piaArray = $('table tbody td.' + classname).map(function() {
         return parseFloat($(this).text());
       }).get();
-      max = Array.max(piaArray);
-      ave = Array.average(piaArray);
-      min = Array.min(piaArray);
-      mod = Array.mode(piaArray);
-      getColorScheme = colorScheme(scheme);
+      max = _max(piaArray);
+      ave = _average(piaArray);
+      min = _min(piaArray);
+      mod = _mode(piaArray);
+      getColorScheme = _colorScheme(scheme);
       xr = getColorScheme.firstColor[0];
       xg = getColorScheme.firstColor[1];
       xb = getColorScheme.firstColor[2];
@@ -144,7 +122,7 @@ SOFTWARE.
       yg = getColorScheme.thirdColor[1];
       yb = getColorScheme.thirdColor[2];
       n = 100;
-      $('table tbody td.' + classname).each(function() {
+      return $('table tbody td.' + classname).each(function() {
         var blue, clr, green, pos, red, value;
         value = parseFloat($(this).text());
         if (value < mod) {
@@ -172,15 +150,12 @@ SOFTWARE.
           green = parseInt((ag + ((pos * (yg - ag)) / (n - 1))).toFixed(0));
           blue = parseInt((ab + ((pos * (yb - ab)) / (n - 1))).toFixed(0));
           clr = rgbToHex(red, green, blue);
-          $(this).css({
+          return $(this).css({
             backgroundColor: clr
           });
         }
       });
     };
-
-    return HeatMapTable;
-
-  })();
+  });
 
 }).call(this);
