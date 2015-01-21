@@ -28,115 +28,113 @@ http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
 ###
 
-jQuery ($) ->
-
-    'use strict';
-    _componentToHex = (color) ->
-      hex = color.toString(16)
-      (if hex.length is 1 then '0' + hex else hex)
+'use strict';
+_componentToHex = (color) ->
+  hex = color.toString(16)
+  (if hex.length is 1 then '0' + hex else hex)
 
 
-    _rgbtoHex = (r, g, b) ->
-      '#' + _componentToHex(r) + _componentToHex(g) + _componentToHex(b)
+_rgbtoHex = (r, g, b) ->
+  '#' + _componentToHex(r) + _componentToHex(g) + _componentToHex(b)
 
-    #Get Maximum and Minimum value out of an array
-    #http://ejohn.org/blog/fast-javascript-maxmin/
+#Get Maximum and Minimum value out of an array
+#http://ejohn.org/blog/fast-javascript-maxmin/
 
-    _max = (array) ->
-      Math.max.apply Math, array
+_max = (array) ->
+  Math.max.apply Math, array
 
-    _min = (array) ->
-      Math.min.apply Math, array
+_min = (array) ->
+  Math.min.apply Math, array
 
-    _average = (array) ->
-        summation = 0
-        i = 0
-        while i < array.length
-            summation += parseFloat(array[i]) # base 10
-            i++
-        average = summation / array.length
-        Math.round average
+_average = (array) ->
+  summation = 0
+  i = 0
+  while i < array.length
+    summation += parseFloat(array[i]) # base 10
+    i++
+  average = summation / array.length
+  Math.round average
 
-    _sort = (array) ->
-      array.sort()
+_sort = (array) ->
+  array.sort()
 
-    _mode = (array) ->
-      counter = {}
-      mode = []
-      max = 0
-      array = array.sort()
-      array[Math.round(array.lenth / 2)]
+_mode = (array) ->
+  counter = {}
+  mode = []
+  max = 0
+  array = array.sort()
+  array[Math.round(array.length / 2)]
 
-    #Color Scheme Function
+#Color Scheme Function
 
-    _colorScheme = (scheme) ->
-      firstColor = undefined
-      secondColor = undefined
-      thirdColor = undefined
-      firstColor = []
-      secondColor = []
-      thirdColor = []
-      switch scheme
-        when 'GYR'
-          firstColor = [ 243, 81, 88 ]
-          secondColor = [ 254, 233, 144 ]
-          thirdColor = [ 84, 180, 104 ]
-        when 'RYG'
-          firstColor = [ 84, 180, 104 ]
-          secondColor = [ 254, 233, 144 ]
-          thirdColor = [ 243, 81, 88 ]
-        else
-          firstColor = [ 243, 81, 88 ]
-          secondColor = [ 254, 233, 144 ]
-          thirdColor = [ 84, 180, 104 ]
-      firstColor: firstColor
-      secondColor: secondColor
-      thirdColor: thirdColor
+_colorScheme = (scheme) ->
+  firstColor = undefined
+  secondColor = undefined
+  thirdColor = undefined
+  firstColor = []
+  secondColor = []
+  thirdColor = []
+  switch scheme
+    when 'GYR'
+      firstColor = [ 243, 81, 88 ]
+      secondColor = [ 254, 233, 144 ]
+      thirdColor = [ 84, 180, 104 ]
+    when 'RYG'
+      firstColor = [ 84, 180, 104 ]
+      secondColor = [ 254, 233, 144 ]
+      thirdColor = [ 243, 81, 88 ]
+    else
+      firstColor = [ 243, 81, 88 ]
+      secondColor = [ 254, 233, 144 ]
+      thirdColor = [ 84, 180, 104 ]
+  firstColor: firstColor
+  secondColor: secondColor
+  thirdColor: thirdColor
 
-    @heatmap = (classname, scheme) ->
-      piaArray = $('table tbody td.' + classname).map(->
-        parseFloat $(this).text()
-      ).get()
+@heatmap = (tablename, classname, scheme) ->
+  piaArray = $('table#'+tablename+' tbody td.' + classname).map(->
+    parseFloat $(this).text()
+  ).get()
 
-      max = _max(piaArray)
-      ave = _average(piaArray)
-      min = _min(piaArray)
-      mod = _mode(piaArray)
+  max = _max(piaArray)
+  ave = _average(piaArray)
+  min = _min(piaArray)
+  mod = _mode(piaArray)
 
-      getColorScheme = _colorScheme(scheme)
+  getColorScheme = _colorScheme(scheme)
 
-      xr = getColorScheme.firstColor[0]
-      xg = getColorScheme.firstColor[1]
-      xb = getColorScheme.firstColor[2]
-      ar = getColorScheme.secondColor[0]
-      ag = getColorScheme.secondColor[1]
-      ab = getColorScheme.secondColor[2]
-      yr = getColorScheme.thirdColor[0]
-      yg = getColorScheme.thirdColor[1]
-      yb = getColorScheme.thirdColor[2]
+  xr = getColorScheme.firstColor[0]
+  xg = getColorScheme.firstColor[1]
+  xb = getColorScheme.firstColor[2]
+  ar = getColorScheme.secondColor[0]
+  ag = getColorScheme.secondColor[1]
+  ab = getColorScheme.secondColor[2]
+  yr = getColorScheme.thirdColor[0]
+  yg = getColorScheme.thirdColor[1]
+  yb = getColorScheme.thirdColor[2]
 
-      n = 100
+  n = 100
 
-      $('table tbody td.' + classname).each ->
-          value = parseFloat($(this).text())
-          if value < mod
-            pos = parseInt((Math.round(((value - min) / (mod - min)) * 100)).toFixed(0))
-            red = parseInt((xr + ((pos * (ar - xr)) / (n - 1))).toFixed(0))
-            green = parseInt((xg + ((pos * (ag - xg)) / (n - 1))).toFixed(0))
-            blue = parseInt((xb + ((pos * (ab - xb)) / (n - 1))).toFixed(0))
-            clr = rgbToHex(red, green, blue)
-            $(this).css backgroundColor: clr
-          if value is mod
-            red = ar
-            green = ag
-            blue = ab
-            clr = rgbToHex(red, green, blue)
-            $(this).css backgroundColor: clr
-          if value > mod
-            pos = parseInt((Math.round(((value - mod) / (max - mod)) * 100)).toFixed(0))
-            red = parseInt((ar + ((pos * (yr - ar)) / (n - 1))).toFixed(0))
-            green = parseInt((ag + ((pos * (yg - ag)) / (n - 1))).toFixed(0))
-            blue = parseInt((ab + ((pos * (yb - ab)) / (n - 1))).toFixed(0))
-            clr = rgbToHex(red, green, blue)
-            $(this).css backgroundColor: clr
-    return
+  $('table#'+tablename+' tbody td.' + classname).each ->
+    value = parseFloat($(this).text())
+    if value < mod
+      pos = parseInt((Math.round(((value - min) / (mod - min)) * 100)).toFixed(0))
+      red = parseInt((xr + ((pos * (ar - xr)) / (n - 1))).toFixed(0))
+      green = parseInt((xg + ((pos * (ag - xg)) / (n - 1))).toFixed(0))
+      blue = parseInt((xb + ((pos * (ab - xb)) / (n - 1))).toFixed(0))
+      clr = _rgbtoHex(red, green, blue)
+      $(this).css backgroundColor: clr
+    if value is mod
+      red = ar
+      green = ag
+      blue = ab
+      clr = _rgbtoHex(red, green, blue)
+      $(this).css backgroundColor: clr
+    if value > mod
+      pos = parseInt((Math.round(((value - mod) / (max - mod)) * 100)).toFixed(0))
+      red = parseInt((ar + ((pos * (yr - ar)) / (n - 1))).toFixed(0))
+      green = parseInt((ag + ((pos * (yg - ag)) / (n - 1))).toFixed(0))
+      blue = parseInt((ab + ((pos * (yb - ab)) / (n - 1))).toFixed(0))
+      clr = _rgbtoHex(red, green, blue)
+      $(this).css backgroundColor: clr
+return
