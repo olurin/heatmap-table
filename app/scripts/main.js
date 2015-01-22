@@ -98,6 +98,11 @@ http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
         secondColor = [254, 233, 144];
         thirdColor = [243, 81, 88];
         break;
+      case 'GWR':
+        firstColor = [243, 81, 88];
+        secondColor = [256, 256, 256];
+        thirdColor = [84, 180, 104];
+        break;
       default:
         firstColor = [243, 81, 88];
         secondColor = [254, 233, 144];

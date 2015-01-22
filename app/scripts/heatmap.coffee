@@ -83,6 +83,10 @@ _colorScheme = (scheme) ->
       firstColor = [ 84, 180, 104 ]
       secondColor = [ 254, 233, 144 ]
       thirdColor = [ 243, 81, 88 ]
+    when 'GWR'
+      firstColor = [ 243, 81, 88 ]
+      secondColor = [ 256, 256, 256 ]
+      thirdColor = [ 84, 180, 104 ]
     else
       firstColor = [ 243, 81, 88 ]
       secondColor = [ 254, 233, 144 ]
