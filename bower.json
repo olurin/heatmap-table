@@ -2,6 +2,8 @@
   "name": "heatmap-table",
   "private": true,
   "dependencies": {
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "classie": "~1.0.1",
+    "normalize.css": "~3.0.2"
   }
 }

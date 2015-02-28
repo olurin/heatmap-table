@@ -1,6 +1,6 @@
 
 /**
-HeatMap JavaScript
+HeatMap CoffeeScript 
 
 The MIT License (MIT)
 
