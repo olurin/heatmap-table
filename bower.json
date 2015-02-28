@@ -4,6 +4,7 @@
   "dependencies": {
     "bootstrap": "~3.2.0",
     "classie": "~1.0.1",
-    "normalize.css": "~3.0.2"
+    "normalize.css": "~3.0.2",
+    "bootstrap-select": "~1.6.4"
   }
 }

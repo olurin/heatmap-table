@@ -11,6 +11,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/normalize.css/normalize.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -21,26 +22,43 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-
-    <div class="container">
+   <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li class="active"><a href="#"><strong>Overview</strong></a></li>
+          <li><a href="#"><strong>Demo</strong></a></li>
+          <li><a href="#"><strong>How to use</strong></a></li>
+          <li><a href="#"><strong>Download</strong></a></li>
         </ul>
-        <h3 class="text-muted">heatmap table</h3>
+        <h3 class="text-muted">Heat-Map <small>v0.1</small></h3>
       </div>
 
       <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
+        <h1> Heat-Map</h1>
         <p class="lead">Always a pleasure scaffolding your apps.</p>
         <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
       </div>
 
-      <div class="row marketing">
-          <table class="table table-striped" id="table-id">
+      <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-header"> Color Scales</h3>
+            <div class="col-sm-6">
+                <span>
+                    Color Scales in Microsoft Excel make it very easy to visualize values in a range of cells. The shade of the color represents the value in the cell.
+                </span>
+            </div>
+            <div class="col-sm-6">
+                <select id="example-select" class="pull-right selectpicker">
+                    <option value="GYR">Green-Yellow-Red</option>
+                    <option value="RYG">Red-Yellow-Green</option>
+                    <option value="GWR">Green-White-Red</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="col-sm-12">
+          <h3 class="page-header"> Example </h3>
+        <table class="table table-striped" id="table-id">
               <tr>
                   <th>Full Name</th>
                   <th>Score</th>
@@ -86,8 +104,8 @@
                   <td class='score'>14</td>
                   <td>4</td>
               </tr>
-
           </table>
+        </div>
       </div>
 
       <div class="footer">
@@ -96,11 +114,11 @@
 
     </div>
 
-
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/classie/classie.js"></script>
+    <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
