@@ -1,6 +1,6 @@
 
 /**
-HeatMap CoffeeScript 
+HeatMap CoffeeScript
 
 The MIT License (MIT)
 
@@ -30,7 +30,7 @@ http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
 (function() {
   'use strict';
-  var _average, _colorScheme, _componentToHex, _max, _min, _mode, _rgbtoHex, _sort;
+  var _average, _colorScheme, _componentToHex, _heatmap, _max, _min, _mode, _rgbtoHex, _sort;
 
   _componentToHex = function(color) {
     var hex;
@@ -115,8 +115,21 @@ http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     };
   };
 
-  this.heatmap = function(tablename, classname, scheme) {
+  this.ColorScale = function(tablename, classname) {
+    var changeSelect, scheme;
+    scheme = '';
+    changeSelect = $('select#color-scale-select');
+    changeSelect.change(function() {
+      scheme = $('#color-scale-select option:selected').val();
+      _heatmap(tablename, classname, scheme);
+      return true;
+    });
+    return _heatmap(tablename, classname, scheme);
+  };
+
+  _heatmap = function(tablename, classname, scheme) {
     var ab, ag, ar, ave, getColorScheme, max, min, mod, n, piaArray, xb, xg, xr, yb, yg, yr;
+    console.log('HeatMap Started ... ');
     piaArray = $('table#' + tablename + ' tbody td.' + classname).map(function() {
       return parseFloat($(this).text());
     }).get();

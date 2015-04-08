@@ -36,7 +36,7 @@
       <div class="jumbotron">
         <h1> Heat-Map</h1>
         <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
+        <p><a id="button-id" class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
       </div>
 
       <div class="row">
@@ -48,14 +48,14 @@
                 </span>
             </div>
             <div class="col-sm-6">
-                <select id="example-select" class="pull-right selectpicker">
+                <select id="color-scale-select" class="pull-right selectpicker">
                     <option value="GYR">Green-Yellow-Red</option>
                     <option value="RYG">Red-Yellow-Green</option>
                     <option value="GWR">Green-White-Red</option>
                 </select>
             </div>
         </div>
-        
+
         <div class="col-sm-12">
           <h3 class="page-header"> Example </h3>
         <table class="table table-striped" id="table-id">
@@ -152,7 +152,10 @@
         <!-- endbuild -->
 
         <script>
-            heatmap('table-id', 'score', 'RYG')
+            ColorScale('table-id', 'score');
+        </script>
+
+        <script>
         </script>
 </body>
 </html>
