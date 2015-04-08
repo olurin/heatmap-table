@@ -1,5 +1,5 @@
 ###*
-HeatMap CoffeeScript 
+HeatMap CoffeeScript
 
 The MIT License (MIT)
 
@@ -66,7 +66,7 @@ _mode = (array) ->
   array[Math.round(array.length / 2)]
 
 #Color Scheme Function
-
+# This function should select the right color scheme from the dropdown widget.
 _colorScheme = (scheme) ->
   firstColor = undefined
   secondColor = undefined
@@ -95,7 +95,23 @@ _colorScheme = (scheme) ->
   secondColor: secondColor
   thirdColor: thirdColor
 
-@heatmap = (tablename, classname, scheme) ->
+@ColorScale = (tablename, classname) -> 
+  
+  scheme = ''
+  changeSelect = $('select#color-scale-select')
+  
+  changeSelect.change () ->
+    scheme = $('#color-scale-select option:selected').val()
+    _heatmap(tablename, classname, scheme)
+    return true
+
+  ## Call HEATMAP
+  _heatmap(tablename, classname, scheme)
+    
+
+_heatmap = (tablename, classname, scheme) ->
+  console.log 'HeatMap Started ... '
+
   piaArray = $('table#'+tablename+' tbody td.' + classname).map(->
     parseFloat $(this).text()
   ).get()
@@ -107,12 +123,17 @@ _colorScheme = (scheme) ->
 
   getColorScheme = _colorScheme(scheme)
 
+## X-'s'
   xr = getColorScheme.firstColor[0]
   xg = getColorScheme.firstColor[1]
   xb = getColorScheme.firstColor[2]
+
+## A-'s'
   ar = getColorScheme.secondColor[0]
   ag = getColorScheme.secondColor[1]
   ab = getColorScheme.secondColor[2]
+
+## Y-'s'
   yr = getColorScheme.thirdColor[0]
   yg = getColorScheme.thirdColor[1]
   yb = getColorScheme.thirdColor[2]
